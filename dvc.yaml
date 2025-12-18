@@ -1,0 +1,32 @@
+stages:
+  preprocess:
+    cmd: python src/common/features.py
+    deps:
+      - src/common/features.py
+      - data/raw
+    outs:
+      - data/processed
+
+  train_retrieval:
+    cmd: python src/retrieval/train.py
+    deps:
+      - data/processed
+      - src/retrieval/train.py
+      - src/retrieval/model.py
+    params:
+      - retrieval.embedding_dim
+      - retrieval.epochs
+    outs:
+      - models/retrieval
+
+  train_ranking:
+    cmd: python src/ranking/train.py
+    deps:
+      - data/processed
+      - models/retrieval
+      - src/ranking/train.py
+      - src/ranking/loss.py
+    params:
+      - ranking.diversity_lambda
+    outs:
+      - models/ranking

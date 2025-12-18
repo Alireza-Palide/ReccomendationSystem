@@ -1,0 +1,14 @@
+project_name: "recsys_distribution"
+
+database:
+  driver: "ODBC Driver 17 for SQL Server"
+  server: "."
+  database: "Uni"
+  trusted: True
+
+data:
+  users_path: "data/raw/customers.parquet"
+  items_path: "data/raw/products.parquet"
+  interactions_path: "data/raw/interactions.parquet"
+
+  vocab_path: "data/processed/vocabularies"

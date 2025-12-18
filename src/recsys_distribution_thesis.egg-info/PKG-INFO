@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: recsys-distribution-thesis
+Version: 0.1.0
+Summary: Recommendation System
+Author-email: Alireza Palide <AlirezaPalide@ugmail.com>
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: tensorflow>=2.13.0
+Requires-Dist: tensorflow-recommenders>=0.7.3
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.23.0
+Requires-Dist: scikit-learn>=1.2.0
+Requires-Dist: pyodbc>=4.0.39
+Requires-Dist: sqlalchemy>=2.0.0
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: uvicorn[standard]>=0.23.0
+Requires-Dist: dvc>=3.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: tqdm>=4.65.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: jupyterlab>=4.0.0; extra == "dev"

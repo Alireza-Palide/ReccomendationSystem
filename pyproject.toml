@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recsys-distribution-thesis"
+version = "0.1.0"
+description = "Recommendation System"
+authors = [
+    {name = "Alireza Palide", email = "AlirezaPalide@ugmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "tensorflow>=2.13.0",
+    "tensorflow-recommenders>=0.7.3",
+    "pandas>=2.0.0",
+    "numpy>=1.23.0",
+    "scikit-learn>=1.2.0",
+    "pyodbc>=4.0.39",        # For SQL Server connection
+    "sqlalchemy>=2.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "dvc>=3.0.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.65.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",        # Code formatting
+    "flake8>=6.0.0",        # Linting
+    "jupyterlab>=4.0.0"
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
