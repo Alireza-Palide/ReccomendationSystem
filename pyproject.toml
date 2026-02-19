@@ -13,8 +13,8 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "tensorflow>=2.13.0",
-    "tensorflow-recommenders>=0.7.3",
+    "tensorflow>=2.13.1",
+    "tensorflow-recommenders==0.7.3",
     "pandas>=2.0.0",
     "numpy>=1.23.0",
     "scikit-learn>=1.2.0",

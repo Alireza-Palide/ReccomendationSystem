@@ -1,25 +1,31 @@
-# Global Project Configuration
 project_name: "recsys_distribution"
 random_seed: 42
 
-# Data Pipeline
-data:
-  raw_path: "data/raw/sales_dump.csv"
-  processed_path: "data/processed/interactions.tfrecord"
-  vocab_path: "data/processed/vocabularies"
-  test_size: 0.2
-  val_size: 0.1
-  batch_size: 1024 # Large batch size is better for Two-Tower negative sampling
+database:
+  driver: "ODBC Driver 17 for SQL Server"
+  server: "169.254.237.155"
+  database: "Uni"
+  trusted: True
 
-# Stage 1: Retrieval (Two-Tower)
+data:
+  raw_users_path: "data/raw/customers.parquet"
+  raw_items_path: "data/raw/products.parquet"
+  raw_interactions_path: "data/raw/interactions.parquet"
+  users_path: "data/processed/users_final.parquet"
+  items_path: "data/processed/items_final.parquet"
+  train_interactions_path: "data/processed/train_interactions.parquet"
+  test_interactions_path: "data/processed/test_interactions.parquet"
+
+  vocab_path: "data/processed/vocabularies"
+  batch_size: 128
+
 retrieval:
   embedding_dim: 64
-  layer_sizes: [256, 128]
-  learning_rate: 0.1
+  layer_sizes: [256, 128, 64]
+  learning_rate: 0.01
   epochs: 10
-  top_k_candidates: 100 # How many items to pass to Stage 2
+  top_k_candidates: 50
 
-# Stage 2: Ranking (Deep Learning)
 ranking:
   embedding_dim: 32
   layer_sizes: [1024, 512, 256]
@@ -27,11 +33,55 @@ ranking:
   epochs: 20
   dropout_rate: 0.2
 
-  # Diversity Research Params
-  diversity_lambda: 0.05 # Weight for the diversity penalty
-  diversity_loss_type: "dpp" # Options: 'dpp', 'cosine_penalty'
+  diversity_lambda: 0.05
+  diversity_loss_type: "dpp"
 
-# Inference / API
 serving:
   model_version: "v1"
   final_top_k: 5
+#  #Global Project Configuration
+# project_name: "recsys_distribution"
+# random_seed: 42
+
+# # Data Pipeline
+# data:
+#   users_path: "data/raw/customers.parquet"
+#   items_path: "data/raw/products.parquet"
+#   interactions_path: "data/raw/interactions.parquet"
+#   raw_path: "data/raw/sales_dump.csv"
+#   processed_path: "data/processed/interactions.tfrecord"
+#   vocab_path: "data/processed/vocabularies"
+#   test_size: 0.2
+#   val_size: 0.1
+#   batch_size: 1024 # Large batch size is better for Two-Tower negative sampling
+
+# # Stage 1: Retrieval (Two-Tower)
+# retrieval:
+#   embedding_dim: 64
+#   layer_sizes: [256, 128]
+#   learning_rate: 0.1
+#   epochs: 20
+#   top_k_candidates: 50 # How many items to pass to Stage 2
+
+# # Stage 2: Ranking (Deep Learning)
+# ranking:
+#   embedding_dim: 32
+#   layer_sizes: [1024, 512, 256]
+#   learning_rate: 0.01
+#   epochs: 20
+#   dropout_rate: 0.2
+
+#   # Diversity Research Params
+#   diversity_lambda: 0.05 # Weight for the diversity penalty
+#   diversity_loss_type: "dpp" # Options: 'dpp', 'cosine_penalty'
+
+# # Inference / API
+# serving:
+#   model_version: "v1"
+#   final_top_k: 5
+
+# database:
+#   driver: "ODBC Driver 17 for SQL Server"
+#   server: "LOCALHOST\\SQLEXPRESS" # UPDATE THIS
+#   database: "DistributionDB" # UPDATE THIS
+#   trusted: True

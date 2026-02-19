@@ -32,21 +32,18 @@ def ingest():
         Cluster,
         RegionCategory,
         -- Convert Date to meaningful feature (Years Active)
-        DATEDIFF(year, EntryDateEn, GETDATE()) as TenureYears 
+        DATEDIFF(year, EntryDateEn, '2025-01-01') as TenureYears 
     FROM CustomerDataForRec
     """
     df_users = connector.extract_data(query_customers)
     
-    # MLOps: Enforce types to prevent drift
     df_users['CustomerCode'] = df_users['CustomerCode'].astype(str)
-    df_users['Cluster'] = df_users['Cluster'].astype(str) # Treat cluster as categorical, not numeric
+    df_users['Cluster'] = df_users['Cluster'].astype(str) 
     
     df_users.to_parquet("data/raw/customers.parquet", index=False)
     logger.info(f"Saved {len(df_users)} customers to data/raw/customers.parquet")
 
-    # ---------------------------------------------------------
-    # 2. EXTRACT PRODUCTS (Item Features)
-    # ---------------------------------------------------------
+
     logger.info("Extracting Products...")
     query_products = """
     SELECT 
@@ -66,13 +63,8 @@ def ingest():
     df_items.to_parquet("data/raw/products.parquet", index=False)
     logger.info(f"Saved {len(df_items)} products to data/raw/products.parquet")
 
-    # ---------------------------------------------------------
-    # 3. EXTRACT INTERACTIONS (The Positive Training Pairs)
-    # ---------------------------------------------------------
     logger.info("Extracting Interactions...")
 
-    # We join with Product/Customer tables just to be safe that 
-    # we don't pull transactions for deleted users/items.
     query_interactions = """
     SELECT 
         cp.CustomerCode,
@@ -88,9 +80,7 @@ def ingest():
     
     df_interactions['CustomerCode'] = df_interactions['CustomerCode'].astype(str)
     df_interactions['ProductCode'] = df_interactions['ProductCode'].astype(str)
-    
-    # Implicit Feedback Logic:
-    # We will likely use 'Frequency' or 'Amount' as a weight in the loss function later.
+
     
     df_interactions.to_parquet("data/raw/interactions.parquet", index=False)
     logger.info(f"Saved {len(df_interactions)} interactions to data/raw/interactions.parquet")
